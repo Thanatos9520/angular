@@ -1,21 +1,53 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const database_1 = __importDefault(require("../database"));
 class GamesController {
     list(req, res) {
-        res.json('listing games');
+        return __awaiter(this, void 0, void 0, function* () {
+            const games = yield database_1.default.query('SELECT * FROM games');
+            res.json(games);
+        });
     }
     getOne(req, res) {
-        res.json({ text: 'This is game' + req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const games = yield database_1.default.query('SELECT * FROM games WHERE id = ?', [id]);
+            if (games.length > 0) {
+                return res.json(games[0]);
+            }
+            res.status(404).json({ text: "The game doesn't exist" });
+        });
     }
     create(req, res) {
-        console.log(req.body);
-        res.json({ text: 'creating game' });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield database_1.default.query('INSERT INTO games set ?', [req.body]);
+            res.json({ message: 'Game Saved' });
+        });
     }
     update(req, res) {
-        res.json({ text: 'updating a game' + req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield database_1.default.query('UPDATE games set ? WHERE id = ?', [req.body, id]);
+            res.json({ message: 'The game was update' });
+        });
     }
     delete(req, res) {
-        res.json({ text: 'deleting a game' + req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield database_1.default.query('DELETE FROM games WHERE id = ?', [id]);
+            res.json({ text: 'The game was delete' });
+        });
     }
 }
 const gamesController = new GamesController();
