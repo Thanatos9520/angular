@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { GameListComponent } from './components/game-list/game-list.component'
@@ -14,9 +14,12 @@ const routes: Routes = [
     path: 'games',
     component: GameListComponent
   },
-
   {
     path: 'games/add',
+    component: GameFormComponent
+  },
+  {
+    path: 'games/edit/:id',
     component: GameFormComponent
   }
 
