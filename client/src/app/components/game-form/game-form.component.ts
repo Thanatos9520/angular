@@ -54,9 +54,17 @@ export class GameFormComponent implements OnInit {
     )
   }
 
-  updateGame(){
-    console.log(this.game)
-  } 
+  updateGame() {
+    delete this.game.created_at;
+    this.gameService.updateGame(this.game.id, this.game)
+      .subscribe(
+        res => { 
+          console.log(res);
+          this.router.navigate(['/games']);
+        },
+        err => console.error(err)
+      )
+  }
 
 }
   
