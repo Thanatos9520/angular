@@ -1,2 +1,8 @@
 server/  npm run build
 server/  npm run dev
+
+app.use(cors({origin: 'http://localhost:4200/%27%7D));
+
+https://www.youtube.com/watch?v=hJwj43AU_G0&t=86s
+
+https://www.youtube.com/watch?v=WriMvn-xqug
